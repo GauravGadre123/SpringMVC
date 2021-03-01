@@ -2,10 +2,12 @@ package com.techno.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.techno.model.User;
 
 @Controller
 public class HomeController {
@@ -43,7 +45,7 @@ public class HomeController {
 		
 	}
  */
-	
+	/*
 	@RequestMapping(value="/show_data",method = RequestMethod.POST)
 	public String showData(Model model,@RequestParam("email") String userEmail,@RequestParam("password") String userPassword) 
 	{
@@ -54,6 +56,15 @@ public class HomeController {
 		model.addAttribute("email",userEmail);
 
 		model.addAttribute("password",userPassword);
+		return "home";
+	}
+	
+*/
+	@RequestMapping(value="/show_data",method = RequestMethod.POST)
+	public String showData(@ModelAttribute User user,Model model) 
+	{
+		
+		model.addAttribute("user",user);
 		return "home";
 	}
 }

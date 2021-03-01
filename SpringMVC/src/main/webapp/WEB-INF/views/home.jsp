@@ -8,8 +8,9 @@
 </head>
 <body>
 <h2>home page called</h2>
-<h3><%=request.getAttribute("email")%></h3>
 
-<h3>${password}</h3>
+<h3>${user.email}</h3>
+
+<h3>${user.password}</h3>
 </body>
 </html>
