@@ -1,5 +1,6 @@
 package com.techno.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -8,9 +9,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.techno.model.User;
+import com.techno.service.UserService;
 
 @Controller
 public class HomeController {
+	
+	@Autowired
+	private UserService userService;
 	/*
 	 * @RequestMapping("/home") public String home(Model model) {
 	 * model.addAttribute("data","i am sending a data"); return "home"; }
@@ -63,7 +68,7 @@ public class HomeController {
 	@RequestMapping(value="/show_data",method = RequestMethod.POST)
 	public String showData(@ModelAttribute User user,Model model) 
 	{
-		
+		userService.saveUser(user);
 		model.addAttribute("user",user);
 		return "home";
 	}

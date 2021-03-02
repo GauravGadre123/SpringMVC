@@ -16,7 +16,56 @@
    http://www.springframework.org/schema//tx/spring-tx.xsd">
    
 	<context:component-scan
-		base-package="com.techno.controller" />
+		base-package="com.techno" />
+		
+<tx:annotation-driven/>
+
+	<bean
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		name="data">
+
+		<property name="driverClassName"
+			value="com.mysql.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://localhost:3306/demo"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="root"></property>
+
+	</bean>
+	<bean
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"
+		name="session">
+
+		<property name="dataSource" ref="data"></property>
+
+		<property name="annotatedClasses">
+
+			<list>
+				<value>com.techno.model.User</value>
+			</list>
+
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+
+		</property>
+	</bean>
+
+	<bean name="hibernatetemplate"
+		class="org.springframework.orm.hibernate5.HibernateTemplate">
+		<property name="sessionFactory" ref="session"></property>
+	</bean>
+
+
+
+	<bean name="transactionManager"
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="session"></property>
+	</bean>
+
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
 		name="viewResolver">
