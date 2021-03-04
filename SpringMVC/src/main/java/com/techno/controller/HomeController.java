@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,9 +19,10 @@ import com.techno.service.UserService;
 
 @Controller
 public class HomeController {
-	
+
 	@Autowired
 	private UserService userService;
+
 	/*
 	 * @RequestMapping("/home") public String home(Model model) {
 	 * model.addAttribute("data","i am sending a data"); return "home"; }
@@ -39,67 +41,65 @@ public class HomeController {
 	}
 
 	@RequestMapping("/input")
-	public String showForm() 
-	{
-		
+	public String showForm() {
+
 		return "input";
 	}
-	
-/*
-	@RequestMapping(value="/show_data",method = RequestMethod.POST)
-	public void showData(HttpServletRequest request) 
-	{
-		System.out.println(request.getParameter("email"));
 
-		System.out.println(request.getParameter("password"));
-		
-	}
- */
 	/*
-	@RequestMapping(value="/show_data",method = RequestMethod.POST)
-	public String showData(Model model,@RequestParam("email") String userEmail,@RequestParam("password") String userPassword) 
-	{
-		System.out.println(userEmail);
-
-		System.out.println(userPassword);
-		
-		model.addAttribute("email",userEmail);
-
-		model.addAttribute("password",userPassword);
-		return "home";
-	}
-	
-*/
+	 * @RequestMapping(value="/show_data",method = RequestMethod.POST) public void
+	 * showData(HttpServletRequest request) {
+	 * System.out.println(request.getParameter("email"));
+	 * 
+	 * System.out.println(request.getParameter("password"));
+	 * 
+	 * }
+	 */
 	/*
-	@RequestMapping(value="/show_data",method = RequestMethod.POST)
-	public String showData(@ModelAttribute User user,Model model) 
-	{
+	 * @RequestMapping(value="/show_data",method = RequestMethod.POST) public String
+	 * showData(Model model,@RequestParam("email") String
+	 * userEmail,@RequestParam("password") String userPassword) {
+	 * System.out.println(userEmail);
+	 * 
+	 * System.out.println(userPassword);
+	 * 
+	 * model.addAttribute("email",userEmail);
+	 * 
+	 * model.addAttribute("password",userPassword); return "home"; }
+	 * 
+	 */
+	/*
+	 * @RequestMapping(value="/show_data",method = RequestMethod.POST) public String
+	 * showData(@ModelAttribute User user,Model model) { userService.saveUser(user);
+	 * model.addAttribute("user",user); return "redirect:/success"; }
+	 */
+	@RequestMapping(value = "/show_data", method = RequestMethod.POST)
+	public RedirectView showData(@ModelAttribute User user, Model model) {
 		userService.saveUser(user);
-		model.addAttribute("user",user);
-		return "redirect:/success";
-	}
-*/
-	@RequestMapping(value="/show_data",method = RequestMethod.POST)
-	public RedirectView  showData(@ModelAttribute User user,Model model) 
-	{
-		userService.saveUser(user);
-		model.addAttribute("user",user);
-		
-		RedirectView rv= new RedirectView();
+		model.addAttribute("user", user);
+
+		RedirectView rv = new RedirectView();
 		rv.setUrl("success");
 		return rv;
-		
+
 	}
-		
-	
-	@RequestMapping(value="/success")
-	public String successPage() 
-	{
+
+	@RequestMapping(value = "/success")
+	public String successPage() {
 		System.out.println("hiiii ");
 		return "success";
-		
+
 	}
-	
-	
-	
+
+    // for getting values from url
+
+	@RequestMapping(value = "/show_values/{id}/{name}")
+	public String showValues(@PathVariable("id") int uid, @PathVariable("name") String uname) {
+		System.out.println(uid);
+
+		System.out.println(uname);
+		return "";
+
+	}
+
 }
